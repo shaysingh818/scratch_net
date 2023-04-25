@@ -2,8 +2,7 @@
 #define LAYER_H
 
 #include "activations.h"
-#include "matrix.h"
-
+#include "../../matrix/includes/matrix.h"
 
 struct Layer {
 	int input_size, output_size;

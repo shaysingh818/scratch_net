@@ -95,57 +95,66 @@ void test_train() {
 
     /* create network */
     double learning_rate = 0.1; 
+    bool equality_status = true; 
     int epochs = 1000; 
 
 
     /* create collection of layers */
-    int layer_count = 4;
-    double loss; 
-    layer_t **layers = malloc(sizeof(layer_t*) * layer_count); 
+    int num_layers = 4;
 
-    /* create network architecture */
-    layers[0] = nn_layer(2, 3, false);
-    layers[1] = nn_layer(2, 3, true); 
-    layers[2] = nn_layer(3, 1, false); 
-    layers[3] = nn_layer(3, 1, true);
+    /* create instance of network */
+    net_t *nn = init_network(learning_rate, num_layers);
+    add_layer(nn, 2, 3, false); 
+    add_layer(nn, 2, 3, true); 
+    add_layer(nn, 3, 1, false); 
+    add_layer(nn, 3, 1, true);
 
-    printf("Layers for Network 1\n\n");
 
     for(int i = 0; i < epochs; i++){
 
         /* forward */
         mat_t *forward_input = x; 
-        for(int i = 0; i < layer_count; i++){
-            mat_t *result = forward(layers[i], forward_input);
+        for(int i = nn->front_index; i <= nn->rear_index; i++){
+            mat_t *result = forward(nn->layers[i], forward_input);
             forward_input = copy_matrix(result);         
         }
 
-        loss = mse(y, forward_input);
+        nn->loss = mse(y, forward_input);
+
+        /* Get derivative of error */
         mat_t *delta_error = difference(y, forward_input);
 
         /* backward */
-        for(int i = layer_count-1; i >= 0; i--){
-            mat_t *result = backward(layers[i], delta_error, learning_rate);
-            delta_error = copy_matrix(result);         
+        for(int n = nn->rear_index; n >= nn->front_index; n--){
+            mat_t *result = backward(
+                nn->layers[n], 
+                delta_error, 
+                nn->learning_rate
+            );
+            delta_error = copy_matrix(result);   
         }
 
     }
 
-    printf("\n\n"); 
-    printf("Predicted result\n"); 
-    mat_t *forward_input = x; 
-    for(int i = 0; i < layer_count; i++){
-        mat_t *result = forward(layers[i], forward_input); 
-        forward_input = copy_matrix(result);         
-    }
-    print_matrix(forward_input); 
-    printf("\n\n"); 
+    /* predict */
+    mat_t *result = predict(nn, x, y);
 
-    printf("LOSS: %.3f\n", loss); 
+    if(nn->loss > 0.1) {
+        equality_status = false; 
+    } 
+
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
+
 
 }
 
 void test_loss() {
+
 
     int inputs[4][2] = {
         {0,0},
@@ -161,7 +170,7 @@ void test_loss() {
         {0}
     };
 
-    srand(time(NULL));
+    //srand(time(NULL));
 
 
     mat_t *x = init_matrix(4, 2); 
@@ -188,8 +197,8 @@ void test_loss() {
     srand(time(NULL));
 
     mat_t *w1 = init_matrix(input_size, hidden_size);
-    mat_t *b1 = init_matrix(1, hidden_size);
     mat_t *w2 = init_matrix(hidden_size, output_size);
+    mat_t *b1 = init_matrix(1, hidden_size);
     mat_t *b2 = init_matrix(1, output_size);
 
     printf("Layers for manual network\n"); 
@@ -197,14 +206,13 @@ void test_loss() {
     randomize(w1, 2); 
     randomize(w2, 1);
 
-    randomize(b1, 2); 
+    randomize(b1, 3); 
     randomize(b2, 1); 
 
     for(int i = 0; i < epochs; i++){
 
         /* forward */
         mat_t *z1 = scale_add(dot(x, w1), b1);
-        printf("\n"); 
         mat_t *a1 = apply(tanh_activation, z1); 
         mat_t *z2 = scale_add(dot(a1, w2), b2); 
         mat_t *a2 = apply(tanh_activation, z2); 
@@ -263,7 +271,6 @@ void test_network_train() {
     srand(time(NULL));
 
 
-
     double learning_rate = 0.1; 
     int epochs = 1000, num_layers = 4; 
     mat_t *x = init_matrix(4, 2); 
@@ -293,10 +300,8 @@ void test_network_train() {
     train(nn, x, y, epochs);
 
     /* predict */
-    
-
-
-
+    printf("Preficted result\n"); 
+    mat_t *result = predict(nn, x, y);
+    print_matrix(result);  
 
 }
-

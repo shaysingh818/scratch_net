@@ -1,5 +1,6 @@
 #include "includes/network.h"
-#include "includes/activations.h"
+#include "../layer/includes/activations.h"
+#include "../matrix/includes/matrix.h"
 
 net_t *init_network(double learning_rate, int num_layers) {
     net_t *nn = (net_t*)malloc(sizeof(net_t));
@@ -43,7 +44,14 @@ void train(net_t *nn, mat_t *x, mat_t *y, int epochs) {
         }
 
         nn->loss = mse(y, forward_input);
-        printf("LOSS: %.4f\n", nn->loss); 
+
+        /* print loss */
+        printf(
+            "Epoch: %d/%d  Error=%.4f\n",
+            i+1, epochs, nn->loss
+        ); 
+
+        /* Get derivative of error */
         mat_t *delta_error = difference(y, forward_input);
 
         /* backward */
@@ -64,7 +72,7 @@ void debug(net_t *n){
 }
 
 
-mat_t *prefict(net_t *nn, mat_t *x, mat_t *y){
+mat_t *predict(net_t *nn, mat_t *x, mat_t *y){
     mat_t *forward_input = x; 
     for(int i = nn->front_index; i <= nn->rear_index; i++){
         mat_t *result = forward(nn->layers[i], forward_input);

@@ -1,9 +1,9 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-#include "matrix.h"
-#include "activations.h"
-#include "layer.h"
+#include "../../matrix/includes/matrix.h"
+#include "../../layer/includes/activations.h"
+#include "../../layer/includes/layer.h"
 
 struct Network {
     int num_layers, layer_count;

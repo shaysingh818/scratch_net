@@ -2,7 +2,7 @@
 #define ACTIVATIONS_H
 
 #include <math.h>
-#include "matrix.h"
+#include "../../matrix/includes/matrix.h"
 
 double sigmoid(double x); 
 mat_t *sigmoid_prime(mat_t *x);
