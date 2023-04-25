@@ -10,11 +10,6 @@ This is a neural network built from scratch using the C programming language. Th
 
 ## Results
 ```bash
-Epoch: 972/1000  Error=0.0050
-Epoch: 973/1000  Error=0.0050
-Epoch: 974/1000  Error=0.0050
-Epoch: 975/1000  Error=0.0050
-Epoch: 976/1000  Error=0.0050
 Epoch: 977/1000  Error=0.0050
 Epoch: 978/1000  Error=0.0049
 Epoch: 979/1000  Error=0.0049
