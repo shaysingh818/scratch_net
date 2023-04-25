@@ -9,37 +9,33 @@ This is a neural network built from scratch using the C programming language. Th
 
 
 ## Results
-```bash
-Epoch: 977/1000  Error=0.0050
-Epoch: 978/1000  Error=0.0049
-Epoch: 979/1000  Error=0.0049
-Epoch: 980/1000  Error=0.0049
-Epoch: 981/1000  Error=0.0049
-Epoch: 982/1000  Error=0.0049
-Epoch: 983/1000  Error=0.0049
-Epoch: 984/1000  Error=0.0049
-Epoch: 985/1000  Error=0.0049
-Epoch: 986/1000  Error=0.0049
-Epoch: 987/1000  Error=0.0049
-Epoch: 988/1000  Error=0.0049
-Epoch: 989/1000  Error=0.0049
-Epoch: 990/1000  Error=0.0049
-Epoch: 991/1000  Error=0.0049
-Epoch: 992/1000  Error=0.0049
-Epoch: 993/1000  Error=0.0048
-Epoch: 994/1000  Error=0.0048
-Epoch: 995/1000  Error=0.0048
-Epoch: 996/1000  Error=0.0048
-Epoch: 997/1000  Error=0.0048
-Epoch: 998/1000  Error=0.0048
-Epoch: 999/1000  Error=0.0048
-Epoch: 1000/1000  Error=0.0048
+* Refer to results.txt to see full loss curve
+* Expected outputs are `[0,1,1,0]`
 
-Predicted result
-0.000110  
-0.904299  
-0.904385  
-0.029504  
+```bash
+Epoch: 985/1000  Error=0.0011
+Epoch: 986/1000  Error=0.0011
+Epoch: 987/1000  Error=0.0011
+Epoch: 988/1000  Error=0.0011
+Epoch: 989/1000  Error=0.0011
+Epoch: 990/1000  Error=0.0011
+Epoch: 991/1000  Error=0.0011
+Epoch: 992/1000  Error=0.0011
+Epoch: 993/1000  Error=0.0011
+Epoch: 994/1000  Error=0.0011
+Epoch: 995/1000  Error=0.0011
+Epoch: 996/1000  Error=0.0011
+Epoch: 997/1000  Error=0.0011
+Epoch: 998/1000  Error=0.0011
+Epoch: 999/1000  Error=0.0011
+Epoch: 1000/1000  Error=0.0011
+
+
+Preficted result
+0.000047  
+0.953812  
+0.953221  
+0.004715  
 ```
 
 ## Using the Network Library
@@ -73,7 +69,7 @@ print_matrix(result);
 * To feed in batches, make use of the `to_rows()` method
 * Arrays can be converted to matrices in the following example
 ```c
-
+/* inputs to network  */ 
 int inputs[4][2] = {
     {0,0},
     {0,1},
@@ -81,6 +77,7 @@ int inputs[4][2] = {
     {1,1}
 };
 
+/* expected outputs */ 
 int outputs[4][1] = {
     {0},
     {1},
@@ -93,7 +90,7 @@ int outputs[4][1] = {
 mat_t *x = init_matrix(4, 2); 
 mat_t *y = init_matrix(4, 1);
     
-
+/* convert 2d arrays to matrice representation */ 
 for(int i = 0; i < 4; i++){
     for(int j = 0; j < 2; j++){
         x->arr[i][j] = inputs[i][j]; 
