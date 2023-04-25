@@ -42,9 +42,9 @@ Predicted result
 0.029504  
 ```
 
-## How to use
+## Using the Network Library
 * Initalize a network with a learning rate and layer count
-* Create instances of layers using the `nn_layer` method
+* Create instances of layers using the `add_layer` method
 * Layers take in an input and output size
 * Layers also take in a boolean that represent if it's an activation layer or not
 
@@ -52,9 +52,9 @@ Predicted result
 /* create instance of network */
 net_t *nn = init_network(learning_rate, num_layers);
 add_layer(nn, 2, 3, false); 
-add_layer(nn, 2, 3, true); 
+add_layer(nn, 2, 3, true); // activation layer
 add_layer(nn, 3, 1, false); 
-add_layer(nn, 3, 1, true);
+add_layer(nn, 3, 1, true); // output activation layer
 
 
 /* fit and train */
@@ -66,3 +66,42 @@ printf("Predicted result\n");
 mat_t *result = predict(nn, x, y);
 print_matrix(result);  
 ```
+
+## Feeding Data Inputs
+* Data can be represented using the matrix library
+* Inputs can be fed in batches or all at once
+* To feed in batches, make use of the `to_rows()` method
+* Arrays can be converted to matrices in the following example
+```c
+
+int inputs[4][2] = {
+    {0,0},
+    {0,1},
+    {1,0},
+    {1,1}
+};
+
+int outputs[4][1] = {
+    {0},
+    {1},
+    {1},
+    {0}
+};
+
+
+/* store input/output data in matrice structs */ 
+mat_t *x = init_matrix(4, 2); 
+mat_t *y = init_matrix(4, 1);
+    
+
+for(int i = 0; i < 4; i++){
+    for(int j = 0; j < 2; j++){
+        x->arr[i][j] = inputs[i][j]; 
+    }
+
+    for(int n = 0; n < 1; n++){
+        y->arr[i][n] = outputs[i][n];
+    }
+}
+```
+
