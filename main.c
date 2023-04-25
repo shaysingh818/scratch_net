@@ -53,7 +53,7 @@ int main(int argc, char **argv){
 
     /* predict */
     printf("\n\n"); 
-    printf("Preficted result\n"); 
+    printf("Predicted result\n"); 
     mat_t *result = predict(nn, x, y);
     print_matrix(result);  
 

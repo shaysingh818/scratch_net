@@ -41,3 +41,28 @@ Predicted result
 0.904385  
 0.029504  
 ```
+
+## How to use
+* Initalize a network with a learning rate and layer count
+* Create instances of layers using the `nn_layer` method
+* Layers take in an input and output size
+* Layers also take in a boolean that represent if it's an activation layer or not
+
+```c
+/* create instance of network */
+net_t *nn = init_network(learning_rate, num_layers);
+add_layer(nn, 2, 3, false); 
+add_layer(nn, 2, 3, true); 
+add_layer(nn, 3, 1, false); 
+add_layer(nn, 3, 1, true);
+
+
+/* fit and train */
+train(nn, x, y, epochs);
+
+/* predict */
+printf("\n\n"); 
+printf("Predicted result\n"); 
+mat_t *result = predict(nn, x, y);
+print_matrix(result);  
+```
