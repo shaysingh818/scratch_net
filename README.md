@@ -1,5 +1,5 @@
 # Scratch Net
-This is a neural network built from scratch using the C programming language. This repo contains all the needed utilties for building your own neural networks from scratch. The purpose of this project was to understand the inner workings of backpropagation and how certain activation functions affect the predicted outputs. 
+This repo contains all the needed utilties for building your own neural networks. The purpose of this project was to understand the inner workings of backpropagation and how certain activation functions affect the predicted outputs. These repo contains utilties for linear algebra, saving pretrained models and creating different architectures for neural nets.  
 
 # General Information 
 * Network implementation solves the XOR problem

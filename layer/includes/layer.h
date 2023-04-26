@@ -10,7 +10,6 @@ struct Layer {
 	mat_t *inputs, *outputs; 
 	mat_t *weights, *biases; 
 	double(*activation_function)(double); 
-	struct Layer *next, *prev; 
 }; 
 
 typedef struct Layer layer_t; 
