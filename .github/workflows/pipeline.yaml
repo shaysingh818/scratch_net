@@ -1,0 +1,49 @@
+name: scratch-net CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  # build source for unit tests
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and Test Matrix Package
+      working-directory: matrix/
+      run: |
+        make
+        ./target/test_matrix
+        make clean
+
+    - name: Build and Test Layer Package
+      working-directory: layer/
+      run: |
+        make
+        ./target/test_layer
+        make clean
+    
+    - name: Build and Test Network Library
+      working-directory: network/
+      run: |
+        make
+        ./target/test_network
+        make clean
+    
+ 
+  # unit tests for python code base
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Binary
+        working-directory: ./
+        run: |
+          make
